@@ -7,21 +7,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libffi-dev libssl-dev default-jdk python3-setuptools
 
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
           command: buildozer android debug
-          buildozer_version: stable
+          buildozer_version: master
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ManuGame-APK
           path: bin/*.apk
-          
+        
